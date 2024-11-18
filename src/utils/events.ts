@@ -6,11 +6,12 @@ declare global {
 }
 
 type Payload = {
-  autopayments: 1 | 0;
-  limit: 1 | 0;
-  limit_sum: number;
-  insurance: 1 | 0;
-  email: 1 | 0;
+  mortage_tips: 1 | 0;
+  recommendations: 1 | 0;
+  notifications: 1 | 0;
+  habits: 1 | 0;
+  forecast: 1 | 0;
+  advices: 1 | 0;
 };
 
 export const sendDataToGA = async (payload: Payload) => {
@@ -21,7 +22,7 @@ export const sendDataToGA = async (payload: Payload) => {
     }-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
 
     await fetch(
-      'https://script.google.com/macros/s/AKfycbxcHgrbrpJDGqapkLM5baYBX40Q4CotD5cxxU-4_mdpm86bxbBXSESz1AkW_G-ubZWb/exec',
+      'https://script.google.com/macros/s/AKfycbzi-unviIu-S8J2csO5D8OnsqfuZUdLEW-jAbas1ZhGhU5U_zxEyizH9OI1SIaCCuj2/exec',
       {
         redirect: 'follow',
         method: 'POST',

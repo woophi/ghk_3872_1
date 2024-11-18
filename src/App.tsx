@@ -2,11 +2,12 @@ import { ButtonMobile } from '@alfalab/core-components/button/mobile';
 import { Gap } from '@alfalab/core-components/gap';
 import { Switch } from '@alfalab/core-components/switch';
 import { Typography } from '@alfalab/core-components/typography';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import wallet from './assets/wallet.png';
 import { LS, LSKeys } from './ls';
 import { appSt } from './style.css';
 import { ThxLayout } from './thx/ThxLayout';
+import { sendDataToGA } from './utils/events';
 
 export const App = () => {
   const [loading, setLoading] = useState(false);
@@ -20,13 +21,22 @@ export const App = () => {
     'Финансовые советы': false,
   });
 
-  const submit = useCallback(() => {
+  const submit = () => {
     setLoading(true);
-
-    // LS.setItem(LSKeys.ShowThx, true);
-    setThx(true);
-    setLoading(false);
-  }, []);
+    window.gtag('event', '3872_continue_click');
+    sendDataToGA({
+      advices: Number(checkedItems['Финансовые советы']) as 1 | 0,
+      forecast: Number(checkedItems['Финансовый прогноз']) as 1 | 0,
+      habits: Number(checkedItems['Полезные привычки']) as 1 | 0,
+      mortage_tips: Number(checkedItems['Советы по ипотеке']) as 1 | 0,
+      notifications: Number(checkedItems['Полезные уведомления']) as 1 | 0,
+      recommendations: Number(checkedItems['Рекомендации по накоплениям']) as 1 | 0,
+    }).then(() => {
+      LS.setItem(LSKeys.ShowThx, true);
+      setThx(true);
+      setLoading(false);
+    });
+  };
 
   if (thxShow) {
     return <ThxLayout />;
